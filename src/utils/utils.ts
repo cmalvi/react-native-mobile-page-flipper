@@ -83,3 +83,32 @@ export function clamp(number: number, min: number, max: number) {
     'worklet';
     return Math.max(min, Math.min(number, max));
 }
+
+export function splitTextForPage(
+    text: string,
+    firstPageMaxCharacters: number = 500,
+    maxCharacters: number = 800
+): string[] {
+    const words = text.split(' ');
+    const pages: string[] = [];
+    let currentPage = '';
+    words.forEach((word) => {
+        if (
+            currentPage.length + word.length + 1 <=
+            (pages.length === 0 ? firstPageMaxCharacters : maxCharacters)
+        ) {
+            if (currentPage) {
+                currentPage += ' ';
+            }
+            currentPage += word;
+        } else {
+            pages.push(currentPage);
+            currentPage = word;
+        }
+    });
+    // Add last page
+    if (currentPage) {
+        pages.push(currentPage);
+    }
+    return pages;
+}

@@ -9,11 +9,10 @@ import {
     PortraitBookInstance,
 } from './portrait/BookPagePortrait';
 import type { Page, Size } from './types';
-import { createPages } from './utils/utils';
+import { createPages, splitTextForPage } from './utils/utils';
 import { BookPageBackground } from './BookPageBackground';
 
-export type IPageFlipperProps = {
-    data: string[];
+export interface CommonIPageFlipperProps {
     enabled?: boolean; // gestures
     pressable?: boolean; // are the pages tappable
     singleImageMode?: boolean;
@@ -27,10 +26,27 @@ export type IPageFlipperProps = {
     onEndReached?: () => void;
     onInitialized?: (props: any) => void;
     renderContainer?: () => any;
-    renderPage?: (data: any) => any;
     pageSize: Size;
     contentContainerStyle: ViewStyle;
-};
+}
+
+export type ConditionalIPageFlipperProps =
+    | {
+          type: 'image';
+          data: string[];
+          renderPage?: (data: any) => any;
+          firstPageMaxCharacters?: never;
+          maxCharacters?: never;
+      }
+    | {
+          type: 'text';
+          data: string;
+          firstPageMaxCharacters?: number;
+          maxCharacters?: number;
+          renderPage?: (data: string) => any;
+      };
+
+type IPageFlipperProps = CommonIPageFlipperProps & ConditionalIPageFlipperProps;
 
 export type PageFlipperInstance = {
     goToPage: (index: number) => void;
@@ -63,6 +79,9 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
     (
         {
             data,
+            type,
+            firstPageMaxCharacters,
+            maxCharacters,
             enabled = true,
             pressable = true,
             singleImageMode = true,
@@ -167,10 +186,18 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
         useEffect(() => {
             const initialize = async () => {
                 try {
+                    const pageData =
+                        type === 'image'
+                            ? data
+                            : splitTextForPage(
+                                  data,
+                                  firstPageMaxCharacters,
+                                  maxCharacters
+                              );
                     const allPages = createPages({
                         portrait,
                         singleImageMode,
-                        data,
+                        data: pageData,
                     });
 
                     let adjustedIndex = getAdjustedIndex(allPages);
@@ -195,8 +222,10 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                     console.error('error', error);
                 }
             };
-            initialize();
-            // eslint-disable-next-line
+            initialize().catch((error) =>
+                console.log('error initialize: ', error)
+            );
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [data, portrait, singleImageMode]);
 
         useEffect(() => {
@@ -213,7 +242,7 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                     );
                 }
             }
-            // eslint-disable-next-line
+            // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [state.nextPageIndex]);
 
         const goToPage = useCallback(
@@ -223,7 +252,7 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                     return;
                 }
 
-                if (typeof index !== 'number' || isNaN(index)) {
+                if (isNaN(index)) {
                     logger('index must be a number');
                     return;
                 }
@@ -319,7 +348,7 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                         : state.pageIndex + index;
 
                 if (newIndex < 0 || newIndex > state.pages.length - 1) {
-                    // this if condition theoretically should never occur in the first place, so it could be removed but it's here just in case
+                    // this if condition theoretically should never occur in the first place, so it could be removed, but it's here just in case
                     logger('invalid page');
 
                     setState({
@@ -556,6 +585,7 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
     }
 );
 
+// noinspection JSUnusedGlobalSymbols
 export default React.memo(PageFlipper);
 
 const Wrapper = (props: any) => <View style={styles.wrap} {...props} />;
