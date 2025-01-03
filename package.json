@@ -13,6 +13,7 @@
         "ios"
     ],
     "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 0",
         "typescript": "tsc --noEmit",
         "lint": "eslint \"src/**/*.{js,ts,tsx}\"",
         "dev": "yarn watch 'yarn prepare' ./src",
