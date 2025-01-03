@@ -1,14 +1,16 @@
 import React from 'react';
 import Animated, {
-    Extrapolate,
+    Extrapolation,
     interpolate,
+    SharedValue,
     useAnimatedStyle,
 } from 'react-native-reanimated';
 import { Gradient } from '../Components/Gradient';
 import { transformOrigin } from '../utils/utils';
+import { DefaultStyle } from 'react-native-reanimated/lib/typescript/hook/commonTypes';
 
 type FrontShadowProps = {
-    degrees: Animated.SharedValue<number>;
+    degrees: SharedValue<number>;
     viewHeight: number;
     right: boolean;
 };
@@ -31,7 +33,7 @@ const FrontShadow: React.FC<FrontShadowProps> = ({
             degrees.value,
             [-180, -100, 0, 100, 180],
             [0, 0.7, 1, 0.7, 0],
-            Extrapolate.CLAMP
+            Extrapolation.CLAMP
         );
         const fix = right ? { right: -shadowWidth } : { left: -shadowWidth };
 
@@ -45,18 +47,19 @@ const FrontShadow: React.FC<FrontShadowProps> = ({
     });
 
     const animatedStyle2 = useAnimatedStyle(() => {
-        const scaleX = interpolate(
+        /*const scaleX = interpolate(
             degrees.value,
             [-150, 0, 150],
             [6, 1, 6],
-            Extrapolate.CLAMP
-        );
+            Extrapolation.CLAMP
+        );*/
 
         return {
             transform: [
-                ...transformOrigin({ x: -shadowWidth / 2, y: 0 }, [{ scaleX }]),
+                // ...transformOrigin({ x: -shadowWidth / 2, y: 0 }, [{ scaleX }]),
+                ...transformOrigin({ x: -shadowWidth / 2, y: 0 }),
             ],
-        };
+        } as DefaultStyle;
     });
 
     return (

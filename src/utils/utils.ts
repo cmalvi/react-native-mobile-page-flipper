@@ -1,4 +1,3 @@
-import { runOnJS } from 'react-native-reanimated';
 import type { Page } from '../types';
 import type { TransformsStyle } from 'react-native';
 
@@ -55,26 +54,16 @@ export const createPages = ({
 type RNTransform = Exclude<TransformsStyle['transform'], undefined>;
 
 export const transformOrigin = (
-    { x, y }: { x: number; y: number },
-    transformations: RNTransform
+    { x, y }: { x: number; y: number }
+    // transformations: RNTransform
 ): RNTransform => {
     'worklet';
     return [
         { translateX: x },
         { translateY: y },
-        ...transformations,
         { translateX: -x },
         { translateY: -y },
     ];
-};
-
-const debug = (msg: string, val: any) => {
-    console.log(msg, val);
-};
-
-export const debugValue = (msg: string, val: any) => {
-    'worklet';
-    runOnJS(debug)(msg, val);
 };
 
 export const snapPoint = (
