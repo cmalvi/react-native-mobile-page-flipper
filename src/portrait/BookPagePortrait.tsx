@@ -264,7 +264,7 @@ const BookPagePortrait = React.forwardRef<PortraitBookInstance, IBookPageProps>(
                             <IPage
                                 page={current}
                                 right={true}
-                                pageNumber={pageNumber + 1}
+                                pageNumber={pageNumber}
                                 {...iPageProps}
                             />
                         ) : (
