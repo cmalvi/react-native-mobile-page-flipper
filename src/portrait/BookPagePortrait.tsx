@@ -217,7 +217,6 @@ const BookPagePortrait = React.forwardRef<PortraitBookInstance, IBookPageProps>(
             getPageStyle,
             rotateYAsDeg,
             renderPage,
-            pageNumber,
         };
 
         return (
@@ -265,6 +264,7 @@ const BookPagePortrait = React.forwardRef<PortraitBookInstance, IBookPageProps>(
                             <IPage
                                 page={current}
                                 right={true}
+                                pageNumber={pageNumber + 1}
                                 {...iPageProps}
                             />
                         ) : (
@@ -277,7 +277,12 @@ const BookPagePortrait = React.forwardRef<PortraitBookInstance, IBookPageProps>(
                             </View>
                         )}
                         {prev && (
-                            <IPage page={prev} right={false} {...iPageProps} />
+                            <IPage
+                                page={prev}
+                                right={false}
+                                pageNumber={pageNumber - 1}
+                                {...iPageProps}
+                            />
                         )}
                     </Animated.View>
                 </PanGestureHandler>
