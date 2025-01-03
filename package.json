@@ -28,13 +28,13 @@
         "flipper",
         "page-flipper"
     ],
-    "repository": "https://github.com/cmalvi/react-native-page-flipper",
+    "repository": "https://github.com/cmalvi/react-native-mobile-page-flipper",
     "author": "cmalvi (https://github.com/cmalvi)",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/cmalvi/react-native-page-flipper/issues"
+        "url": "https://github.com/cmalvi/react-native-page-mobile-flipper/issues"
     },
-    "homepage": "https://github.com/cmalvi/react-native-page-flipper#readme",
+    "homepage": "https://github.com/cmalvi/react-native-page-mobile-flipper#readme",
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
     },
