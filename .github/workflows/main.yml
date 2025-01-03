@@ -1,6 +1,5 @@
 name: Publish NPM Package
 on:
-  push:
   release:
     types: [created]
 jobs:
