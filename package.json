@@ -32,9 +32,9 @@
     "author": "cmalvi (https://github.com/cmalvi)",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/cmalvi/react-native-page-mobile-flipper/issues"
+        "url": "https://github.com/cmalvi/react-native-mobile-page-flipper/issues"
     },
-    "homepage": "https://github.com/cmalvi/react-native-page-mobile-flipper#readme",
+    "homepage": "https://github.com/cmalvi/react-native-mobile-page-flipper#readme",
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
     },
