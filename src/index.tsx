@@ -34,7 +34,7 @@ export type ConditionalIPageFlipperProps =
     | {
           type: 'image';
           data: string[];
-          renderPage?: (data: any) => any;
+          renderPage?: (data: any, index: number) => any;
           firstPageMaxCharacters?: never;
           maxCharacters?: never;
       }
@@ -43,7 +43,7 @@ export type ConditionalIPageFlipperProps =
           data: string;
           firstPageMaxCharacters?: number;
           maxCharacters?: number;
-          renderPage?: (data: string) => any;
+          renderPage?: (data: string, index: number) => any;
       };
 
 type IPageFlipperProps = CommonIPageFlipperProps & ConditionalIPageFlipperProps;
@@ -486,6 +486,7 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                 onPageDragStart,
                 isPressable: pressable,
                 renderPage,
+                pageNumber: pageIndex,
             };
 
         const ContentWrapper = renderContainer ? renderContainer : Wrapper;
@@ -539,6 +540,7 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                                     renderPage={renderPage}
                                     renderLastPage={renderLastPage}
                                     shouldRenderLastPage={shouldRenderLastPage}
+                                    pageNumber={pageIndex}
                                 />
                             </View>
                         ) : (
@@ -571,7 +573,10 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                                                     false
                                                 )}
                                             >
-                                                {renderPage(next.right)}
+                                                {renderPage(
+                                                    next.right,
+                                                    pageIndex
+                                                )}
                                             </View>
                                         )}
                                     </View>

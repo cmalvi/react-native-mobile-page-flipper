@@ -10,9 +10,10 @@ type IBookPageBackgroundProps = {
     isLastPage: boolean;
     containerSize: Size;
     getPageStyle: (right: boolean, front: boolean) => any;
-    renderPage?: (data: any) => any;
+    renderPage?: (data: any, index: number) => any;
     renderLastPage?: () => any;
     shouldRenderLastPage: boolean;
+    pageNumber: number;
 };
 
 const BookPageBackground: React.FC<IBookPageBackgroundProps> = ({
@@ -25,6 +26,7 @@ const BookPageBackground: React.FC<IBookPageBackgroundProps> = ({
     renderPage,
     renderLastPage,
     shouldRenderLastPage,
+    pageNumber,
 }) => {
     const leftPageStyle = getPageStyle(false, true);
     const rightPageStyle = getPageStyle(true, true);
@@ -33,7 +35,9 @@ const BookPageBackground: React.FC<IBookPageBackgroundProps> = ({
         <View style={styles.container}>
             <View style={styles.pageContainer}>
                 {left && renderPage && (
-                    <View style={[leftPageStyle]}>{renderPage(left)}</View>
+                    <View style={[leftPageStyle]}>
+                        {renderPage(left, pageNumber)}
+                    </View>
                 )}
                 {isFirstPage && (
                     <BookSpine right={false} containerSize={containerSize} />
@@ -41,7 +45,9 @@ const BookPageBackground: React.FC<IBookPageBackgroundProps> = ({
             </View>
             <View style={styles.pageContainer}>
                 {right && renderPage && (
-                    <View style={[rightPageStyle]}>{renderPage(right)}</View>
+                    <View style={[rightPageStyle]}>
+                        {renderPage(right, pageNumber)}
+                    </View>
                 )}
                 {isLastPage && (
                     <BookSpine right={true} containerSize={containerSize} />
