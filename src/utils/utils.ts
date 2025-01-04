@@ -14,21 +14,21 @@ export const createPages = ({
 
     if (portrait) {
         if (!singleImageMode) {
-            data.forEach((page) => {
+            data.forEach((page, index) => {
                 allPages.push({
-                    left: page,
-                    right: page,
+                    left: { index: index, content: page },
+                    right: { index: index, content: page },
                 });
                 allPages.push({
-                    left: page,
-                    right: page,
+                    left: { index: index, content: page },
+                    right: { index: index, content: page },
                 });
             });
         } else {
             for (let i = 0; i < data.length; i++) {
                 allPages[i] = {
-                    left: data[i],
-                    right: data[i],
+                    left: { index: i, content: data[i] },
+                    right: { index: i, content: data[i] },
                 };
             }
         }
@@ -36,14 +36,14 @@ export const createPages = ({
         for (let i = 0; i < data.length; i++) {
             if (singleImageMode) {
                 allPages.push({
-                    left: data[i],
-                    right: data[i + 1],
+                    left: { index: i, content: data[i] },
+                    right: { index: i + 1, content: data[i + 1] },
                 });
                 i++;
             } else {
                 allPages.push({
-                    left: data[i],
-                    right: data[i],
+                    left: { index: i, content: data[i] },
+                    right: { index: i, content: data[i] },
                 });
             }
         }

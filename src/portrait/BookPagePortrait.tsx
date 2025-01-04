@@ -6,9 +6,10 @@ import {
 } from 'react-native-gesture-handler';
 import Animated, {
     Easing,
-    Extrapolate,
+    Extrapolation,
     interpolate,
     runOnJS,
+    SharedValue,
     useAnimatedGestureHandler,
     useAnimatedStyle,
     useDerivedValue,
@@ -38,7 +39,7 @@ export type IBookPageProps = {
     onPageDragStart?: () => void;
     onPageDrag?: () => void;
     onPageDragEnd?: () => void;
-    renderPage?: (data: any) => any;
+    renderPage?: (page: { index: number; content: string }) => any;
 };
 
 export type PortraitBookInstance = { turnPage: (index: 1 | -1) => void };
@@ -120,16 +121,15 @@ const BookPagePortrait = React.forwardRef<PortraitBookInstance, IBookPageProps>(
             };
         }, []);
 
-        const getDegreesForX = (x: number) => {
+        const getDegreesForX = (xAx: number) => {
             'worklet';
 
-            const val = interpolate(
-                x,
+            return interpolate(
+                xAx,
                 [-containerSize.width, 0, containerSize.width],
                 [180, 0, -180],
-                Extrapolate.CLAMP
+                Extrapolation.CLAMP
             );
-            return val;
         };
 
         const containerStyle = useAnimatedStyle(() => {
@@ -286,7 +286,7 @@ const BookPagePortrait = React.forwardRef<PortraitBookInstance, IBookPageProps>(
 type IPageProps = {
     right: boolean;
     page: Page;
-    rotateYAsDeg: Animated.SharedValue<number>;
+    rotateYAsDeg: SharedValue<number>;
     containerWidth: number;
     containerSize: Size;
     getPageStyle: any;
@@ -312,10 +312,9 @@ const IPage: React.FC<IPageProps> = ({
     }, []);
 
     const rotationVal = useDerivedValue(() => {
-        const val = right
+        return right
             ? rotateYAsDeg.value
             : interpolate(rotateYAsDeg.value, [-180, 0], [0, 180]);
-        return val;
     });
 
     const portraitBackStyle = useAnimatedStyle(() => {
@@ -343,7 +342,7 @@ const IPage: React.FC<IPageProps> = ({
             rotationVal.value,
             [0, 160],
             [containerWidth, -20],
-            Extrapolate.CLAMP
+            Extrapolation.CLAMP
         );
 
         const style: ViewStyle = {
@@ -352,7 +351,7 @@ const IPage: React.FC<IPageProps> = ({
         };
 
         if (!right) {
-            style['left'] = 0;
+            style.left = 0;
         } else {
             // style['right'] = 0;
         }

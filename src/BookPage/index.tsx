@@ -39,7 +39,7 @@ export type IBookPageProps = {
     onPageDragStart?: () => void;
     onPageDrag?: () => void;
     onPageDragEnd?: () => void;
-    renderPage?: (data: any) => any;
+    renderPage?: (page: { index: number; content: string }) => any;
 };
 
 export type BookPageInstance = {
@@ -149,7 +149,7 @@ const BookPage = React.forwardRef<BookPageInstance, IBookPageProps>(
 
         const backStyle = useAnimatedStyle(() => {
             const degrees = rotateYAsDeg.value;
-            const x = right
+            const xAx = right
                 ? interpolate(
                       degrees,
                       [0, 180],
@@ -163,7 +163,7 @@ const BookPage = React.forwardRef<BookPageInstance, IBookPageProps>(
             return {
                 width: Math.ceil(w),
                 zIndex: 2,
-                transform: [{ translateX: x }],
+                transform: [{ translateX: xAx }],
             };
         });
 
@@ -190,9 +190,9 @@ const BookPage = React.forwardRef<BookPageInstance, IBookPageProps>(
             };
 
             if (right) {
-                style['left'] = 0;
+                style.left = 0;
             } else {
-                style['right'] = 0;
+                style.right = 0;
             }
 
             return style;

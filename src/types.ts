@@ -4,6 +4,6 @@ export type Size = {
 };
 
 export type Page = {
-    left: string;
-    right: string;
+    left: { index: number; content: string };
+    right: { index: number; content: string };
 };
