@@ -6,7 +6,7 @@ import {
 } from 'react-native-gesture-handler';
 import Animated, {
     Easing,
-    Extrapolation,
+    Extrapolate,
     interpolate,
     runOnJS,
     useAnimatedGestureHandler,
@@ -39,8 +39,7 @@ export type IBookPageProps = {
     onPageDragStart?: () => void;
     onPageDrag?: () => void;
     onPageDragEnd?: () => void;
-    pageNumber: number;
-    renderPage?: (data: any, index: number) => any;
+    renderPage?: (page: { index: number; content: string }) => any;
 };
 
 export type BookPageInstance = {
@@ -72,7 +71,6 @@ const BookPage = React.forwardRef<BookPageInstance, IBookPageProps>(
             onPageDragEnd,
             onPageDragStart,
             renderPage,
-            pageNumber,
         },
         ref
     ) => {
@@ -177,13 +175,13 @@ const BookPage = React.forwardRef<BookPageInstance, IBookPageProps>(
                       degrees,
                       [0, 90],
                       [containerWidth / 2, 0],
-                      Extrapolation.CLAMP
+                      Extrapolate.CLAMP
                   )
                 : interpolate(
                       degrees,
                       [-90, 0],
                       [0, containerWidth / 2],
-                      Extrapolation.CLAMP
+                      Extrapolate.CLAMP
                   );
 
             const style: ViewStyle = {
@@ -242,7 +240,7 @@ const BookPage = React.forwardRef<BookPageInstance, IBookPageProps>(
                     x.value,
                     [-containerWidth, 0, containerWidth],
                     [180, 0, -180],
-                    Extrapolation.CLAMP
+                    Extrapolate.CLAMP
                 );
 
                 if (onPageDrag && typeof onPageDrag === 'function') {
@@ -339,7 +337,7 @@ const BookPage = React.forwardRef<BookPageInstance, IBookPageProps>(
                                             animatedBackPageStyle,
                                         ]}
                                     >
-                                        {renderPage(backUrl, pageNumber)}
+                                        {renderPage(backUrl)}
                                     </Animated.View>
                                 )
                             ) : (
@@ -380,7 +378,7 @@ const BookPage = React.forwardRef<BookPageInstance, IBookPageProps>(
                         {frontUrl ? (
                             renderPage && (
                                 <Animated.View style={[frontPageStyle]}>
-                                    {renderPage(frontUrl, pageNumber)}
+                                    {renderPage(frontUrl)}
                                 </Animated.View>
                             )
                         ) : (

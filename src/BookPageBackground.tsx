@@ -4,16 +4,15 @@ import { BookSpine } from './BookPage/BookSpine';
 import type { Size } from './types';
 
 type IBookPageBackgroundProps = {
-    left: string;
-    right: string;
+    left: { index: number; content: string };
+    right: { index: number; content: string };
     isFirstPage: boolean;
     isLastPage: boolean;
     containerSize: Size;
     getPageStyle: (right: boolean, front: boolean) => any;
-    renderPage?: (data: any, index: number) => any;
+    renderPage?: (page: { index: number; content: string }) => any;
     renderLastPage?: () => any;
     shouldRenderLastPage: boolean;
-    pageNumber: number;
 };
 
 const BookPageBackground: React.FC<IBookPageBackgroundProps> = ({
@@ -26,7 +25,6 @@ const BookPageBackground: React.FC<IBookPageBackgroundProps> = ({
     renderPage,
     renderLastPage,
     shouldRenderLastPage,
-    pageNumber,
 }) => {
     const leftPageStyle = getPageStyle(false, true);
     const rightPageStyle = getPageStyle(true, true);
@@ -35,9 +33,7 @@ const BookPageBackground: React.FC<IBookPageBackgroundProps> = ({
         <View style={styles.container}>
             <View style={styles.pageContainer}>
                 {left && renderPage && (
-                    <View style={[leftPageStyle]}>
-                        {renderPage(left, pageNumber)}
-                    </View>
+                    <View style={[leftPageStyle]}>{renderPage(left)}</View>
                 )}
                 {isFirstPage && (
                     <BookSpine right={false} containerSize={containerSize} />
@@ -45,9 +41,7 @@ const BookPageBackground: React.FC<IBookPageBackgroundProps> = ({
             </View>
             <View style={styles.pageContainer}>
                 {right && renderPage && (
-                    <View style={[rightPageStyle]}>
-                        {renderPage(right, pageNumber)}
-                    </View>
+                    <View style={[rightPageStyle]}>{renderPage(right)}</View>
                 )}
                 {isLastPage && (
                     <BookSpine right={true} containerSize={containerSize} />

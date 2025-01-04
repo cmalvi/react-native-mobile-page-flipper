@@ -39,8 +39,7 @@ export type IBookPageProps = {
     onPageDragStart?: () => void;
     onPageDrag?: () => void;
     onPageDragEnd?: () => void;
-    renderPage?: (data: any, index: number) => any;
-    pageNumber: number;
+    renderPage?: (page: { index: number; content: string }) => any;
 };
 
 export type PortraitBookInstance = { turnPage: (index: 1 | -1) => void };
@@ -69,7 +68,6 @@ const BookPagePortrait = React.forwardRef<PortraitBookInstance, IBookPageProps>(
             onPageDragEnd,
             onPageDragStart,
             renderPage,
-            pageNumber,
         },
         ref
     ) => {
@@ -264,25 +262,19 @@ const BookPagePortrait = React.forwardRef<PortraitBookInstance, IBookPageProps>(
                             <IPage
                                 page={current}
                                 right={true}
-                                pageNumber={pageNumber}
                                 {...iPageProps}
                             />
                         ) : (
                             <View style={{ height: '100%', width: '100%' }}>
                                 {renderPage && (
                                     <View style={getPageStyle(true, true)}>
-                                        {renderPage(current.right, pageNumber)}
+                                        {renderPage(current.right)}
                                     </View>
                                 )}
                             </View>
                         )}
                         {prev && (
-                            <IPage
-                                page={prev}
-                                right={false}
-                                pageNumber={pageNumber - 1}
-                                {...iPageProps}
-                            />
+                            <IPage page={prev} right={false} {...iPageProps} />
                         )}
                     </Animated.View>
                 </PanGestureHandler>
@@ -298,8 +290,7 @@ type IPageProps = {
     containerWidth: number;
     containerSize: Size;
     getPageStyle: any;
-    renderPage?: (data: any, index: number) => any;
-    pageNumber: number;
+    renderPage?: (data: any) => any;
 };
 
 const IPage: React.FC<IPageProps> = ({
@@ -310,7 +301,6 @@ const IPage: React.FC<IPageProps> = ({
     containerSize,
     getPageStyle,
     renderPage,
-    pageNumber,
 }) => {
     const [loaded, setLoaded] = useState(right);
 
@@ -414,7 +404,7 @@ const IPage: React.FC<IPageProps> = ({
                                 },
                             ]}
                         >
-                            {renderPage(page.left, pageNumber)}
+                            {renderPage(page.left)}
                         </Animated.View>
                     )}
                 </View>
@@ -426,7 +416,7 @@ const IPage: React.FC<IPageProps> = ({
             <Animated.View style={[styles.pageContainer, portraitFrontStyle]}>
                 {renderPage && (
                     <Animated.View style={[frontPageStyle]}>
-                        {renderPage(page.left, pageNumber)}
+                        {renderPage(page.left)}
                     </Animated.View>
                 )}
             </Animated.View>

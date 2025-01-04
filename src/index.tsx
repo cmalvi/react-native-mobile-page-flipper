@@ -34,7 +34,7 @@ export type ConditionalIPageFlipperProps =
     | {
           type: 'image';
           data: string[];
-          renderPage?: (data: any, index: number) => any;
+          renderPage?: (page: { index: number; content: string }) => any;
           firstPageMaxCharacters?: never;
           maxCharacters?: never;
       }
@@ -43,7 +43,7 @@ export type ConditionalIPageFlipperProps =
           data: string;
           firstPageMaxCharacters?: number;
           maxCharacters?: number;
-          renderPage?: (data: string, index: number) => any;
+          renderPage?: (page: { index: number; content: string }) => any;
       };
 
 type IPageFlipperProps = CommonIPageFlipperProps & ConditionalIPageFlipperProps;
@@ -111,9 +111,18 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
             isAnimating: false,
             initialized: false,
             // pageSize: { width: 0, height: 0 },
-            prev: { left: '', right: '' },
-            current: { left: '', right: '' },
-            next: { left: '', right: '' },
+            prev: {
+                left: { index: 0, content: '' },
+                right: { index: 0, content: '' },
+            },
+            current: {
+                left: { index: 0, content: '' },
+                right: { index: 0, content: '' },
+            },
+            next: {
+                left: { index: 0, content: '' },
+                right: { index: 0, content: '' },
+            },
             nextPageIndex: undefined,
             isPortrait: portrait,
         });
@@ -486,7 +495,6 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                 onPageDragStart,
                 isPressable: pressable,
                 renderPage,
-                pageNumber: pageIndex,
             };
 
         const ContentWrapper = renderContainer ? renderContainer : Wrapper;
@@ -540,7 +548,6 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                                     renderPage={renderPage}
                                     renderLastPage={renderLastPage}
                                     shouldRenderLastPage={shouldRenderLastPage}
-                                    pageNumber={pageIndex}
                                 />
                             </View>
                         ) : (
@@ -573,10 +580,7 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                                                     false
                                                 )}
                                             >
-                                                {renderPage(
-                                                    next.right,
-                                                    pageIndex
-                                                )}
+                                                {renderPage(next.right)}
                                             </View>
                                         )}
                                     </View>
