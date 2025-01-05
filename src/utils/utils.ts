@@ -16,19 +16,43 @@ export const createPages = ({
         if (!singleImageMode) {
             data.forEach((page, index) => {
                 allPages.push({
-                    left: { index: index, content: page },
-                    right: { index: index, content: page },
+                    left: {
+                        index: index,
+                        content: page,
+                        totalPages: data.length,
+                    },
+                    right: {
+                        index: index,
+                        content: page,
+                        totalPages: data.length,
+                    },
                 });
                 allPages.push({
-                    left: { index: index, content: page },
-                    right: { index: index, content: page },
+                    left: {
+                        index: index,
+                        content: page,
+                        totalPages: data.length,
+                    },
+                    right: {
+                        index: index,
+                        content: page,
+                        totalPages: data.length,
+                    },
                 });
             });
         } else {
             for (let i = 0; i < data.length; i++) {
                 allPages[i] = {
-                    left: { index: i, content: data[i] },
-                    right: { index: i, content: data[i] },
+                    left: {
+                        index: i,
+                        content: data[i],
+                        totalPages: data.length,
+                    },
+                    right: {
+                        index: i,
+                        content: data[i],
+                        totalPages: data.length,
+                    },
                 };
             }
         }
@@ -36,14 +60,30 @@ export const createPages = ({
         for (let i = 0; i < data.length; i++) {
             if (singleImageMode) {
                 allPages.push({
-                    left: { index: i, content: data[i] },
-                    right: { index: i + 1, content: data[i + 1] },
+                    left: {
+                        index: i,
+                        content: data[i],
+                        totalPages: data.length,
+                    },
+                    right: {
+                        index: i + 1,
+                        content: data[i + 1],
+                        totalPages: data.length,
+                    },
                 });
                 i++;
             } else {
                 allPages.push({
-                    left: { index: i, content: data[i] },
-                    right: { index: i, content: data[i] },
+                    left: {
+                        index: i,
+                        content: data[i],
+                        totalPages: data.length,
+                    },
+                    right: {
+                        index: i,
+                        content: data[i],
+                        totalPages: data.length,
+                    },
                 });
             }
         }

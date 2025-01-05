@@ -4,13 +4,17 @@ import { BookSpine } from './BookPage/BookSpine';
 import type { Size } from './types';
 
 type IBookPageBackgroundProps = {
-    left: { index: number; content: string };
-    right: { index: number; content: string };
+    left: { index: number; content: string; totalPages: number };
+    right: { index: number; content: string; totalPages: number };
     isFirstPage: boolean;
     isLastPage: boolean;
     containerSize: Size;
     getPageStyle: (right: boolean, front: boolean) => any;
-    renderPage?: (page: { index: number; content: string }) => any;
+    renderPage?: (page: {
+        index: number;
+        content: string;
+        totalPages: number;
+    }) => any;
     renderLastPage?: () => any;
     shouldRenderLastPage: boolean;
 };

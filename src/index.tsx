@@ -34,7 +34,11 @@ export type ConditionalIPageFlipperProps =
     | {
           type: 'image';
           data: string[];
-          renderPage?: (page: { index: number; content: string }) => any;
+          renderPage?: (page: {
+              index: number;
+              content: string;
+              totalPages: number;
+          }) => any;
           firstPageMaxCharacters?: never;
           maxCharacters?: never;
       }
@@ -43,7 +47,11 @@ export type ConditionalIPageFlipperProps =
           data: string;
           firstPageMaxCharacters?: number;
           maxCharacters?: number;
-          renderPage?: (page: { index: number; content: string }) => any;
+          renderPage?: (page: {
+              index: number;
+              content: string;
+              totalPages: number;
+          }) => any;
       };
 
 type IPageFlipperProps = CommonIPageFlipperProps & ConditionalIPageFlipperProps;
@@ -112,16 +120,16 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
             initialized: false,
             // pageSize: { width: 0, height: 0 },
             prev: {
-                left: { index: 0, content: '' },
-                right: { index: 0, content: '' },
+                left: { index: 0, content: '', totalPages: 0 },
+                right: { index: 0, content: '', totalPages: 0 },
             },
             current: {
-                left: { index: 0, content: '' },
-                right: { index: 0, content: '' },
+                left: { index: 0, content: '', totalPages: 0 },
+                right: { index: 0, content: '', totalPages: 0 },
             },
             next: {
-                left: { index: 0, content: '' },
-                right: { index: 0, content: '' },
+                left: { index: 0, content: '', totalPages: 0 },
+                right: { index: 0, content: '', totalPages: 0 },
             },
             nextPageIndex: undefined,
             isPortrait: portrait,
