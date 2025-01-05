@@ -5,7 +5,7 @@ This package allows you to use a cool page curl effect on your React Native apps
 ## Installation
 
 ```sh
-yarn add react-native-page-flipper
+yarn add react-native-mobile-page-flipper
 ```
 
 In order for this package to work properly, its built using react-native-gesture-handler,react-native-linear-gradient, and react-native-reanimated. So make sure you also have these installed,
@@ -40,6 +40,7 @@ import PageFlipper from 'react-native-page-flipper';
 const App = () => {
     return (
       <PageFlipper
+        type="image"
         data={[
             'https://up.mangadudes.com/bleach/18/bleach-9337-e60a76a126bc6ecd3211aeaad51a7dba.jpg',
             'https://up.mangadudes.com/bleach/18/bleach-9338-89fcdb98b22c94781ba2846ea2e562c3.jpg',
@@ -54,7 +55,7 @@ const App = () => {
           width: 210,
         }}
         portrait={true}
-        renderPage={(data) => <Image source={{ uri: data }} style={{ height: '100%', width: '100%' }} />}
+        renderPage={(data) => <Image source={{ uri: data.content }} style={{ height: '100%', width: '100%' }} />}
       />
     )
 }
@@ -64,25 +65,28 @@ export default App;
 
 ### Props
 
-| Prop name             | Type              | Default value | Description                                                                                                                                                                                  |
-|-----------------------|-------------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| data                  | any[]             | undefined     | The data you want to render, an array of images, or strings for text urls                                                                                                                    |
-| renderPage            | () => Element     | undefined     | The element to render for each item                                                                                                                                                          |
-| pageSize              | Object            | undefined     | page size (used only to calculate ratio)                                                                                                                                                     |
-| contentContainerStyle | Object            | undefined     | style for content container                                                                                                                                                                  |
-| enabled               | bool              | true          | enables / disables the pan gesture handler of the pages                                                                                                                                      |
-| pressable             | bool              | true          | enables / disables the tapping on the pages to flip                                                                                                                                          |
-| singleImageMode       | bool              | true          | Defines whether each page is treated as a single image or two in one. (see above)                                                                                                            |
-| renderLastPage        | () => JSX.Element | undefined     | optional function to render the last page (only applies when not in portrait mode and have an odd number of pages)                                                                           |
-| portrait              | bool              | false         | sets portrait mode (viewing a single page at a time, see above)                                                                                                                              |
-| onFlippedEnd          | Function          | undefined     | Callback for when the page has finished flipping                                                                                                                                             |
-| onFlippedStart        | Function          | undefined     | Callback for when the page has started flipping, (does not trigger when user begins dragging the page, only when manually flipped by tapping the page or calling one of the exposed methods) |
-| onPageDragStart       | Function          | undefined     | Callback for when the page has started dragging (user dragging with finger)                                                                                                                  |
-| onPageDrag            | Function          | undefined     | Callback for when the page is actively being dragged                                                                                                                                         |
-| onPageDragEnd         | Function          | undefined     | Callback for when the page has finished dragging                                                                                                                                             |
-| onInitialized         | Function          | undefined     | Callback for when the page flipper is initialized                                                                                                                                            |
-| renderContainer       | Function          | undefined     | function to return an element for rendering the container of the viewer                                                                                                                      |
-| onEndReached          | Function          | undefined     | Callback for when the page flipper reaches the last page                                                                                                                                     |
+| Prop name             | Type                                                                      | Default value | Description                                                                                                                                                                                  |
+|-----------------------|---------------------------------------------------------------------------|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| type                  | 'image' \| 'text'                                                         | undefined     | The type of data you want to render, using text it allows to set max word per page                                                                                                           |
+| data                  | any[] \| string[]                                                         | undefined     | The data you want to render, an array of images, or strings for text urls                                                                                                                    |
+| firstPageMaxWords     | number                                                                    | undefined     | The max number of words you want in the first page                                                                                                                                           |
+| maxWords              | number                                                                    | undefined     | The max number of words you want in other pages                                                                                                                                              |
+| renderPage            | (page: { index: number; content: string; totalPages: number }) => Element | undefined     | The element to render for each item, with page object you can do conditional rendering based on index                                                                                        |
+| pageSize              | Object                                                                    | undefined     | page size (used only to calculate ratio)                                                                                                                                                     |
+| contentContainerStyle | Object                                                                    | undefined     | style for content container                                                                                                                                                                  |
+| enabled               | bool                                                                      | true          | enables / disables the pan gesture handler of the pages                                                                                                                                      |
+| pressable             | bool                                                                      | true          | enables / disables the tapping on the pages to flip                                                                                                                                          |
+| singleImageMode       | bool                                                                      | true          | Defines whether each page is treated as a single image or two in one. (see above)                                                                                                            |
+| renderLastPage        | () => JSX.Element                                                         | undefined     | optional function to render the last page (only applies when not in portrait mode and have an odd number of pages)                                                                           |
+| portrait              | bool                                                                      | false         | sets portrait mode (viewing a single page at a time, see above)                                                                                                                              |
+| onFlippedEnd          | Function                                                                  | undefined     | Callback for when the page has finished flipping                                                                                                                                             |
+| onFlippedStart        | Function                                                                  | undefined     | Callback for when the page has started flipping, (does not trigger when user begins dragging the page, only when manually flipped by tapping the page or calling one of the exposed methods) |
+| onPageDragStart       | Function                                                                  | undefined     | Callback for when the page has started dragging (user dragging with finger)                                                                                                                  |
+| onPageDrag            | Function                                                                  | undefined     | Callback for when the page is actively being dragged                                                                                                                                         |
+| onPageDragEnd         | Function                                                                  | undefined     | Callback for when the page has finished dragging                                                                                                                                             |
+| onInitialized         | ((props: { pages: Page[]   index: number }) => void)                      | undefined     | Callback for when the page flipper is initialized, use page info to set a page indicator for example                                                                                         |
+| renderContainer       | Function                                                                  | undefined     | function to return an element for rendering the container of the viewer                                                                                                                      |
+| onEndReached          | Function                                                                  | undefined     | Callback for when the page flipper reaches the last page                                                                                                                                     |
 
 ### Methods
 

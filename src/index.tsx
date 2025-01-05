@@ -39,14 +39,14 @@ export type ConditionalIPageFlipperProps =
               content: string;
               totalPages: number;
           }) => any;
-          firstPageMaxCharacters?: never;
-          maxCharacters?: never;
+          firstPageMaxWords?: never;
+          maxWords?: never;
       }
     | {
           type: 'text';
           data: string;
-          firstPageMaxCharacters?: number;
-          maxCharacters?: number;
+          firstPageMaxWords?: number;
+          maxWords?: number;
           renderPage?: (page: {
               index: number;
               content: string;
@@ -88,8 +88,8 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
         {
             data,
             type,
-            firstPageMaxCharacters,
-            maxCharacters,
+            firstPageMaxWords,
+            maxWords,
             enabled = true,
             pressable = true,
             singleImageMode = true,
@@ -208,8 +208,8 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                             ? data
                             : splitTextForPage(
                                   data,
-                                  firstPageMaxCharacters,
-                                  maxCharacters
+                                  firstPageMaxWords,
+                                  maxWords
                               );
                     const allPages = createPages({
                         portrait,

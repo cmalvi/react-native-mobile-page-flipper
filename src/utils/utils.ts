@@ -126,8 +126,8 @@ export function clamp(number: number, min: number, max: number) {
 
 export function splitTextForPage(
     text: string,
-    firstPageMaxCharacters: number = 500,
-    maxCharacters: number = 800
+    firstPageMaxWords: number = 500,
+    maxWords: number = 800
 ): string[] {
     const words = text.split(' ');
     const pages: string[] = [];
@@ -135,7 +135,7 @@ export function splitTextForPage(
     words.forEach((word) => {
         if (
             currentPage.length + word.length + 1 <=
-            (pages.length === 0 ? firstPageMaxCharacters : maxCharacters)
+            (pages.length === 0 ? firstPageMaxWords : maxWords)
         ) {
             if (currentPage) {
                 currentPage += ' ';
