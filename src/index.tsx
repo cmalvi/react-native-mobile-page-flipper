@@ -24,7 +24,7 @@ export interface CommonIPageFlipperProps {
     onPageDrag?: () => void;
     onPageDragEnd?: () => void;
     onEndReached?: () => void;
-    onInitialized?: (props: any) => void;
+    onInitialized?: (props: { pages: Page[]; index: number }) => void;
     renderContainer?: () => any;
     pageSize: Size;
     contentContainerStyle: ViewStyle;
