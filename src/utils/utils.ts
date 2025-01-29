@@ -140,20 +140,24 @@ export const splitTextForPage = (
     let isFirstPage = true;
 
     const measureTextWidth = (text: string): number => {
-        // Stima semplice della larghezza del testo in base al numero di caratteri e dimensione del font
         const averageCharWidth = 0.5 * fontSize; // Approssimazione della larghezza media dei caratteri
         return text.length * averageCharWidth;
     };
 
-    for (let word of words) {
+    for (let i = 0; i < words.length; i++) {
+        const word = words[i];
+
         if (currentLine !== '') {
             currentLine += ' ';
         }
         currentLine += word;
 
         if (measureTextWidth(currentLine) > maxWidth) {
-            currentPage += currentLine.trim() + '\n';
-            currentLine = word + ' ';
+            currentLine = currentLine
+                .trimEnd()
+                .substring(0, currentLine.lastIndexOf(' '));
+            currentPage += currentLine + '\n';
+            currentLine = words[i] + ' ';
             linesCount++;
         }
 
