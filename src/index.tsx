@@ -39,14 +39,20 @@ export type ConditionalIPageFlipperProps =
               content: string;
               totalPages: number;
           }) => any;
-          firstPageMaxWords?: never;
-          maxWords?: never;
+          linesFirstPage?: never;
+          linesPerPage?: never;
+          maxWidth?: never;
+          font?: never;
+          fontSize?: never;
       }
     | {
           type: 'text';
           data: string;
-          firstPageMaxWords?: number;
-          maxWords?: number;
+          linesFirstPage?: number;
+          linesPerPage?: number;
+          maxWidth?: number;
+          font?: string;
+          fontSize?: number;
           renderPage?: (page: {
               index: number;
               content: string;
@@ -88,8 +94,11 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
         {
             data,
             type,
-            firstPageMaxWords,
-            maxWords,
+            linesFirstPage,
+            linesPerPage,
+            maxWidth,
+            font,
+            fontSize,
             enabled = true,
             pressable = true,
             singleImageMode = true,
@@ -203,18 +212,21 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
         useEffect(() => {
             const initialize = async () => {
                 try {
-                    const pageData =
-                        type === 'image'
-                            ? data
-                            : splitTextForPage(
-                                  data,
-                                  firstPageMaxWords,
-                                  maxWords
-                              );
+                    let pageData;
+                    type === 'image'
+                        ? (pageData = data)
+                        : splitTextForPage(
+                              data,
+                              linesFirstPage as number,
+                              linesPerPage as number,
+                              maxWidth as number,
+                              font as string,
+                              fontSize as number
+                          ).then((res) => (pageData = res));
                     const allPages = createPages({
                         portrait,
                         singleImageMode,
-                        data: pageData,
+                        data: pageData as string[],
                     });
 
                     let adjustedIndex = getAdjustedIndex(allPages);

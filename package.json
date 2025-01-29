@@ -89,5 +89,8 @@
     },
     "resolutions": {
         "@types/react": "^18.2.6"
+    },
+    "dependencies": {
+        "react-native-text-size": "^4.0.0-rc.1"
     }
 }

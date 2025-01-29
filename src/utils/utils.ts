@@ -1,3 +1,4 @@
+import TextSize from 'react-native-text-size';
 import type { Page } from '../types';
 import type { TransformsStyle } from 'react-native';
 
@@ -124,31 +125,58 @@ export function clamp(number: number, min: number, max: number) {
     return Math.max(min, Math.min(number, max));
 }
 
-export function splitTextForPage(
-    text: string,
-    firstPageMaxWords: number = 500,
-    maxWords: number = 800
-): string[] {
-    const words = text.split(' ');
-    const pages: string[] = [];
+export const splitTextForPage = async (
+    story: string,
+    linesFirstPage: number,
+    linesPerPage: number,
+    maxWidth: number,
+    font: string,
+    fontSize: number
+): Promise<string[]> => {
+    const words = story.split(' ');
+    let pages: string[] = [];
+    let currentLine = '';
     let currentPage = '';
-    words.forEach((word) => {
-        if (
-            currentPage.length + word.length + 1 <=
-            (pages.length === 0 ? firstPageMaxWords : maxWords)
-        ) {
-            if (currentPage) {
-                currentPage += ' ';
-            }
-            currentPage += word;
-        } else {
-            pages.push(currentPage);
-            currentPage = word;
+    let linesCount = 0;
+    let isFirstPage = true;
+
+    for (let word of words) {
+        if (currentLine !== '') {
+            currentLine += ' ';
         }
-    });
-    // Add last page
-    if (currentPage) {
-        pages.push(currentPage);
+        currentLine += word;
+
+        const textSize = await TextSize.measure({
+            text: currentLine,
+            fontFamily: font,
+            fontSize: fontSize,
+            width: maxWidth,
+        });
+
+        if (textSize.width > maxWidth) {
+            currentPage += currentLine.trim() + '\n';
+            currentLine = word + ' ';
+            linesCount++;
+        }
+
+        if (
+            (isFirstPage && linesCount >= linesFirstPage) ||
+            (!isFirstPage && linesCount >= linesPerPage)
+        ) {
+            pages.push(currentPage.trim());
+            currentPage = '';
+            linesCount = 0;
+            isFirstPage = false;
+        }
     }
+
+    if (currentLine.trim() !== '') {
+        currentPage += currentLine.trim() + '\n';
+    }
+
+    if (currentPage.trim() !== '') {
+        pages.push(currentPage.trim());
+    }
+
     return pages;
-}
+};
