@@ -153,12 +153,20 @@ export const splitTextForPage = (
         currentLine += word;
 
         if (measureTextWidth(currentLine) > maxWidth) {
-            currentLine = currentLine
-                .trimEnd()
-                .substring(0, currentLine.lastIndexOf(' '));
-            currentPage += currentLine + '\n';
-            currentLine = words[i] + ' ';
-            linesCount++;
+            if (currentLine.trim() === word) {
+                // Se la parola stessa supera la larghezza massima, iniziare una nuova riga con essa
+                currentPage += currentLine.trim() + '\n';
+                currentLine = '';
+                linesCount++;
+            } else {
+                // Altrimenti, rimuovere l'ultima parola dalla linea corrente e aggiungerla a una nuova linea
+                currentLine = currentLine
+                    .trimEnd()
+                    .substring(0, currentLine.lastIndexOf(' '));
+                currentPage += currentLine + '\n';
+                currentLine = word;
+                linesCount++;
+            }
         }
 
         if (
