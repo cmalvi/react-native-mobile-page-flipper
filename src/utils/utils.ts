@@ -1,4 +1,3 @@
-import TextSize from 'react-native-text-size-latest';
 import type { Page } from '../types';
 import type { TransformsStyle } from 'react-native';
 
@@ -125,14 +124,14 @@ export function clamp(number: number, min: number, max: number) {
     return Math.max(min, Math.min(number, max));
 }
 
-export const splitTextForPage = async (
+export const splitTextForPage = (
     story: string,
     linesFirstPage: number,
     linesPerPage: number,
     maxWidth: number,
-    font: string,
+    _font: string,
     fontSize: number
-): Promise<string[]> => {
+): string[] => {
     const words = story.split(' ');
     let pages: string[] = [];
     let currentLine = '';
@@ -140,20 +139,19 @@ export const splitTextForPage = async (
     let linesCount = 0;
     let isFirstPage = true;
 
+    const measureTextWidth = (text: string): number => {
+        // Stima semplice della larghezza del testo in base al numero di caratteri e dimensione del font
+        const averageCharWidth = 0.5 * fontSize; // Approssimazione della larghezza media dei caratteri
+        return text.length * averageCharWidth;
+    };
+
     for (let word of words) {
         if (currentLine !== '') {
             currentLine += ' ';
         }
         currentLine += word;
 
-        const textSize = await TextSize.measure({
-            text: currentLine,
-            fontFamily: font,
-            fontSize: fontSize,
-            width: maxWidth,
-        });
-
-        if (textSize.width > maxWidth) {
+        if (measureTextWidth(currentLine) > maxWidth) {
             currentPage += currentLine.trim() + '\n';
             currentLine = word + ' ';
             linesCount++;

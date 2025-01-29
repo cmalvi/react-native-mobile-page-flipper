@@ -212,21 +212,21 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
         useEffect(() => {
             const initialize = async () => {
                 try {
-                    let pageData;
-                    type === 'image'
-                        ? (pageData = data)
-                        : splitTextForPage(
-                              data,
-                              linesFirstPage as number,
-                              linesPerPage as number,
-                              maxWidth as number,
-                              font as string,
-                              fontSize as number
-                          ).then((res) => (pageData = res));
+                    const pageData =
+                        type === 'image'
+                            ? data
+                            : splitTextForPage(
+                                  data,
+                                  linesFirstPage as number,
+                                  linesPerPage as number,
+                                  maxWidth as number,
+                                  font as string,
+                                  fontSize as number
+                              );
                     const allPages = createPages({
                         portrait,
                         singleImageMode,
-                        data: pageData as string[],
+                        data: pageData,
                     });
 
                     let adjustedIndex = getAdjustedIndex(allPages);
