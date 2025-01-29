@@ -1,4 +1,4 @@
-import TextSize from 'react-native-text-size';
+import TextSize from 'react-native-text-size-latest';
 import type { Page } from '../types';
 import type { TransformsStyle } from 'react-native';
 

@@ -1,6 +1,6 @@
 {
     "name": "react-native-mobile-page-flipper",
-    "version": "1.2.9",
+    "version": "1.2.10",
     "description": "Mobile Page Flipper",
     "main": "lib/commonjs/index",
     "module": "lib/module/index.js",
@@ -91,6 +91,6 @@
         "@types/react": "^18.2.6"
     },
     "dependencies": {
-        "react-native-text-size": "^4.0.0-rc.1"
+        "react-native-text-size-latest": "^1.9.0"
     }
 }

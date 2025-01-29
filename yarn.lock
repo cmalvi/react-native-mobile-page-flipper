@@ -6057,10 +6057,10 @@ react-native-reanimated@^3.15.0:
     convert-source-map "^2.0.0"
     invariant "^2.2.4"
 
-react-native-text-size@^4.0.0-rc.1:
-  version "4.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/react-native-text-size/-/react-native-text-size-4.0.0-rc.1.tgz#1e048d345dd6a5a8e1269e0585c1a5948c478da5"
-  integrity sha512-CysqjU2jK6Yc+a+kEI222pUyTY2ywcU2HqbFqf1KHymW6OPTdvBBHqbEJKL0QiLhQaFYDbqicM+h990s9TP00g==
+react-native-text-size-latest@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-text-size-latest/-/react-native-text-size-latest-1.9.0.tgz#38d4bdc44ea7e4782c5bad296698e2ebfc93ec42"
+  integrity sha512-KGqa2cVJDDa0eqhpvzWjFZ4wMtSx78glE09a8aZ7+P0jRyxTqwO2UapVRolvzCcBRWHPgz44QYakeEb2nzLRQw==
 
 react-native@*, react-native@^0.75.0:
   version "0.75.4"
