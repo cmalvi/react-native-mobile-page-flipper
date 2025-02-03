@@ -1,6 +1,6 @@
 {
     "name": "react-native-mobile-page-flipper",
-    "version": "1.2.12",
+    "version": "1.2.13",
     "description": "Mobile Page Flipper",
     "main": "lib/commonjs/index",
     "module": "lib/module/index.js",

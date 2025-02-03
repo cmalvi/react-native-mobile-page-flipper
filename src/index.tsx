@@ -44,6 +44,7 @@ export type ConditionalIPageFlipperProps =
           maxWidth?: never;
           font?: never;
           fontSize?: never;
+          toIndex?: number;
       }
     | {
           type: 'text';
@@ -58,6 +59,7 @@ export type ConditionalIPageFlipperProps =
               content: string;
               totalPages: number;
           }) => any;
+          toIndex?: number;
       };
 
 type IPageFlipperProps = CommonIPageFlipperProps & ConditionalIPageFlipperProps;
@@ -113,6 +115,7 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
             onInitialized,
             renderContainer,
             renderPage,
+            toIndex,
             pageSize = { height: 600, width: 400 },
             contentContainerStyle,
         },
@@ -229,7 +232,9 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                         data: pageData,
                     });
 
-                    let adjustedIndex = getAdjustedIndex(allPages);
+                    let adjustedIndex = toIndex
+                        ? toIndex
+                        : getAdjustedIndex(allPages);
 
                     setState({
                         initialized: true,
