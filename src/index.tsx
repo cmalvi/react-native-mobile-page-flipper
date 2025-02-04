@@ -241,7 +241,10 @@ const PageFlipper = React.forwardRef<PageFlipperInstance, IPageFlipperProps>(
                         pages: allPages,
                         prev: allPages[adjustedIndex - 1],
                         current: allPages[adjustedIndex],
-                        next: allPages[adjustedIndex + 1],
+                        next:
+                            adjustedIndex + 1 >= allPages.length
+                                ? undefined
+                                : allPages[adjustedIndex + 1],
                         pageIndex: adjustedIndex,
                         isPortrait: portrait,
                     });
